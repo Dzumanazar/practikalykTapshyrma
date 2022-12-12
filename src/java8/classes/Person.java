@@ -1,10 +1,10 @@
 package java8.classes;
 
+import java8.MyException.MyException;
 import java8.enums.Country;
 import java8.enums.Gender;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Person {
     private String surName;
@@ -18,7 +18,7 @@ public class Person {
     public Person(String surName, String name, LocalDate dateOfBirth, long id, Gender gender, Country country, String phoneNumber) {
         this.surName = surName;
         this.name = name;
-        this.dateOfBirth = dateOfBirth;
+        checkAge(dateOfBirth);
         this.id = id;
         this.gender = gender;
         this.country = country;
@@ -80,6 +80,18 @@ public class Person {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    private void checkAge(LocalDate dateOfBirth){
+        try {
+            LocalDate now = LocalDate.now();
+            if (!dateOfBirth.isBefore(now)){
+                throw new MyException("tuura jaz");
+            }else {
+                this.dateOfBirth=dateOfBirth;
+            }
+        } catch (MyException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
     @Override
     public String toString() {
@@ -92,22 +104,5 @@ public class Person {
                 "\n country: " + country +
                 "\n phoneNumber: " + phoneNumber +
                 "\n+++++++++++++++++++++++++++++++++++++++++";
-    }
-         try {
-        LocalDate now = LocalDate.now();
-        if (dateOfBirth.isAfter(now)){
-            throw new MyException("tuura jaz");
-        }
-    } catch (MyException e) {
-        throw new RuntimeException(e);
-    }
-
-    private void checkAge(LocalDate dateOfBirth){
-             try {
-                 LocalDate now = LocalDate.now();
-                 if (!dateOfBirth.isBefore(now)){
-                     throw new MyException("tuura jaz");
-                 }
-             }
     }
 }
